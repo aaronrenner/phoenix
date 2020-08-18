@@ -11,6 +11,7 @@ defmodule Phx.New.MixProject do
       start_permanent: Mix.env() == :prod,
       version: @version,
       elixir: "~> 1.9",
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       package: [
         maintainers: [
@@ -46,6 +47,9 @@ defmodule Phx.New.MixProject do
       {:ex_doc, "~> 0.19.1", only: :docs}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp docs do
     [
