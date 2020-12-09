@@ -71,7 +71,7 @@ jobs:
         run: |
           mix local.rebar --force
           mix local.hex --force
-          apk add --no-progress --update git socat make gcc libc-dev
+          apk add --no-progress --update git socat make gcc libc-dev moreutils
       - name: Set up local proxies
         run: |
           socat TCP-LISTEN:5432,fork TCP-CONNECT:postgres:5432&
@@ -83,6 +83,11 @@ jobs:
       - name: Install dependencies
         run: mix deps.get
         working-directory: integration_test
+      - name: Compile dependencies
+        run: "mix deps.compile | ts"
+        working-directory: integration_test
+        env:
+          MIX_ENV: test
       - name: Run integration tests
         run: mix test --include database
         working-directory: integration_test
